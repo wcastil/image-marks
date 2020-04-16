@@ -9,7 +9,7 @@ def pr(x):
     elif x.ndim == 2:
         return x[:,:-1] / x[:,[-1]]
     else:
-        raise Exception, 'Cannot pr() an array with %d dimensions' % x.ndim
+        raise Exception('Cannot pr() an array with %d dimensions' % x.ndim)
 
 def unpr(x):
     '''Unproject a vector or matrix. In the latter case each *row* will be
@@ -20,7 +20,7 @@ def unpr(x):
     elif x.ndim == 2:
         return np.hstack((x, np.ones((len(x), 1))))
     else:
-        raise Exception, 'Cannot unpr() an array with %d dimensions' % x.ndim
+        raise Exception('Cannot unpr() an array with %d dimensions' % x.ndim)
 
 def prdot(H, X):
     '''Project a point through a homogeneous transformation,
@@ -65,13 +65,13 @@ def fit_homography_homogeneous(fp, tp):
     tp = np.asarray(tp, float)
 
     if fp.shape[0] != 3:
-        raise RuntimeError, 'number of rows in fp must be 3 (there were %d)' % fp.shape[0]
+        raise RuntimeError('number of rows in fp must be 3 (there were %d)' % fp.shape[0])
 
     if tp.shape[0] != 3:
-        raise RuntimeError, 'number of rows in tp must be 3 (there were %d)' % tp.shape[0]
+        raise RuntimeError('number of rows in tp must be 3 (there were %d)' % tp.shape[0])
 
     if fp.shape[1] != tp.shape[1]:
-        raise RuntimeError, 'number of points do not match'
+        raise RuntimeError('number of points do not match')
 
     #condition points (important for numerical reasons)
     #--from points--

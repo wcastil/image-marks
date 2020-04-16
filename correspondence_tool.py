@@ -59,7 +59,7 @@ class CorrespondenceFrame(wx.Frame):
         else:
             scaling = 1.
 
-        bitmap = wx.BitmapFromImage(image)
+        bitmap = wx.Bitmap(image)
         return image, bitmap, (w,h), scaling
             
 
@@ -87,20 +87,21 @@ class CorrespondenceFrame(wx.Frame):
         try:
             X = np.atleast_2d(np.loadtxt(path))
             if X.ndim != 2 or X.shape[1] != 4:
-                print '%s has invalid shape: %s' % (corrs_path, str(X.shape))
+                print('%s has invalid shape: %s' % (corrs_path, str(X.shape)))
             else:
                 self._left_points  = list(X[:,:2] * self._left_scaling)
                 self._right_points = list(X[:,2:] * self._right_scaling)
         except ValueError as ex:
-            print 'Failed to parse %s: %s' % (corrs_path, ex.message)
+            print('Failed to parse %s: %s' % (corrs_path, ex.message))
 
 
     def on_self_paint(self, event=None):
-        dc = wx.PaintDC(self)
+        #dc = wx.PaintDC(self)
+        dc = wx.ClientDC(self)
         dc.Clear()
 
-        dc.DrawBitmapPoint(self._left_bitmap, self._left_offset)
-        dc.DrawBitmapPoint(self._right_bitmap, self._right_offset)
+        dc.DrawBitmap(self._left_bitmap, self._left_offset)
+        dc.DrawBitmap(self._right_bitmap, self._right_offset)
 
         HOVER_ALPHA = 80
         LINE_ALPHA = 140
@@ -165,7 +166,7 @@ class CorrespondenceFrame(wx.Frame):
                         dc.DrawLine(p0[0], p0[1], p1[0], p1[1])
 
             except np.linalg.LinAlgError:
-                print 'Failed to fit homography'
+                print('Failed to fit homography')
             
 
     def on_self_left_down(self, event=None):
@@ -230,7 +231,7 @@ class CorrespondenceFrame(wx.Frame):
         if n > 0:
             left_scaled = np.asarray(self._left_points[:n]) / self._left_scaling
             right_scaled = np.asarray(self._right_points[:n]) / self._right_scaling
-            print 'Wrote %d correspondences to %s' % (n, self._corrs_path)
+            print('Wrote %d correspondences to %s' % (n, self._corrs_path))
             np.savetxt(self._corrs_path,
                        np.hstack((left_scaled, right_scaled)),
                        fmt='%10.2f')
@@ -243,6 +244,6 @@ class CorrespondenceFrame(wx.Frame):
 
 if __name__ == '__main__':
     if len(sys.argv) not in (3,4):
-        print 'Usage: python correspondence_tool.py <IMAGE1> <IMAGE2> <OUTPUT_CORRESPONDENCES>'
+        print('Usage: python correspondence_tool.py <IMAGE1> <IMAGE2> <OUTPUT_CORRESPONDENCES>')
     else:
         CorrespondenceFrame.run(*sys.argv[1:])
