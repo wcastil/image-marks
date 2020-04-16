@@ -1,3 +1,14 @@
+WELCOME TO THUNDERDOME. 
+
+To work on my mac I had to pip install wxPython and run with the following command:
+pythonw correspondence_tool.py path_to_image1/image1png path_to_image2/image2.png output.txt
+
+MISSING:
+-outputting the correspondence in a format needed for our testing
+-More than two images to correspond
+-Zoom
+
+
 Image Correspondences
 ===========
 
